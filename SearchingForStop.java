@@ -1,23 +1,27 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.stream.Stream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class SearchingForStop
 {
-	//public String filename;
-	//@SuppressWarnings("rawtypes")
-	//public ArrayList stopInfo;
-	//@SuppressWarnings("rawtypes")
-	
     @SuppressWarnings({ "rawtypes" })
-	static TST createTST(String filename)
+	static
+	TST createTST(String filename , String input)
     {
+    	
 		TST TST = new TST();
+		int lineNo =0;
 		try
 		{
-			ArrayList<String> stopInfo = new ArrayList<String>();
 			File file = new File(filename);
 			Scanner in;
 			in = new Scanner(file);
@@ -25,14 +29,11 @@ public class SearchingForStop
 			in.useDelimiter(",|" + "/n");
 			while(in.hasNext())
 			{
-				String stop_id = in.next();
-				stop_id = stop_id.replace("\n", "").replace("\r", "");
-				stopInfo.add(stop_id);
-				String stop_code = in.next();
-				stopInfo.add(stop_code);
+				in.next();
+				in.next();
 				String stop_name = in.next();
 				String[] stop_name_split = stop_name.split(" ");
-				if (stop_name_split[0]=="WB" || stop_name_split[0]=="NB" || stop_name_split[0]=="SB" || stop_name_split[0]=="EB" )
+				if (stop_name_split[0].equals("WB") || stop_name_split[0].equals("NB") || stop_name_split[0].equals("SB") || stop_name_split[0].equals("EB"))
 				{
 					StringBuffer sb = new StringBuffer();
 				      for(int i = 1; i < stop_name_split.length; i++) {
@@ -42,23 +43,13 @@ public class SearchingForStop
 				      sb.append(stop_name_split[0]);
 				      stop_name = sb.toString();
 				}
-				stopInfo.add(stop_name);
-				String stop_lat = in.next();
-				stopInfo.add(stop_lat);
-				String stop_lon = in.next();
-				stopInfo.add(stop_lon);
-				String zone_id = in.next();
-				stopInfo.add(zone_id);
-				String stop_url = in.next();
-				stopInfo.add(stop_url);
-				String location_type = in.next();
-				stopInfo.add(location_type);
-				String parent_station = in.next();
-				stopInfo.add(parent_station);
-				TST.put(stop_name, stopInfo);
-				stopInfo.clear();
+				in.nextLine();
+				TST.put(stop_name, lineNo);
+				lineNo++;
 			}
 			in.close();
+	    	LinkedList<String> String = TST.keysWithPrefix(input);
+	    	System.out.println(String);
 		}
 		catch (FileNotFoundException | NullPointerException e)
 		{
@@ -67,12 +58,9 @@ public class SearchingForStop
 		return TST;
     }
     
-    static void searching(String filename, String input)
-    {
-    	TST<ArrayList> TST = new TST<>();
-    	TST = SearchingForStop.createTST(filename);
-    	LinkedList<String> String = TST.keysWithPrefix(input);
-    	System.out.println(String);
-    }
-   
+	public static void main(String[] args) throws IOException 
+	{
+		TST tst = new TST();
+		tst = createTST("stops.txt" , "DUN");
+	}
 }
