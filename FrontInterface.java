@@ -4,50 +4,79 @@ import java.util.Scanner;
 public class FrontInterface {
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("Which part do you wish to test?");
-		System.out.println("Type number (1/2/3)");
-		System.out.println("Type 4 if you dont want to test anything");
-		Scanner input = new Scanner(System.in);
-		String userInput = input.next();
-		
-		if (userInput.equals("1"))
+		boolean finished = false;
+		Scanner input = new Scanner( System.in );
+		Boolean correctlyDone = false;
+		int inputFromUser =0;
+		while (!(finished||(correctlyDone)))
 		{
-			FindingShortestPath idk = new FindingShortestPath();
-			System.out.println("Part 1");
-			System.out.println("Please give ID of stop you are starting from. EG 1888");
-			String stop1 = input.next();
-			System.out.println("Please give ID of stop you are going to. EG 1888");
-			String stop2 = input.next();
-			idk.FindingShortestPathMethod("stops.txt", "stop_times.txt", "transfers.txt", stop1, stop2);
+			System.out.println("Which part do you wish to test? (or enter 'quit'):  ");
+			System.out.println("Type number (1/2/3)");
+			if (input.hasNextInt())
+			{
+				inputFromUser = input.nextInt();
+				if ((inputFromUser==1 ||inputFromUser==2 ||inputFromUser==3))
+				{
+					correctlyDone = true;
+				}
+				else
+				{
+					System.out.println("Type number (1/2/3)");
+				}
+			}
+			else if (input.hasNext("exit")||input.hasNext("quit"))
+			{
+				finished = true;
+				System.out.println("Exited the program");
+			}
+			else
+			{
+				System.out.println("Error: No integers were entered");
+				input.next();
+			}
 		}
-		
-		if (userInput.equals("2"))
+		if (correctlyDone)
 		{
-			System.out.println("Part 2");
-			System.out.println("Please give part of name of stop. EG DUN/Water");
-			userInput = input.next();
-		    System.out.println("Here is the list of stops");
-		    System.out.println("stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station");
-			TSTForStops tst = new TSTForStops();
-			tst = SearchingForStop.createTST("stops.txt" , userInput);
-		}
-		
-		if (userInput.equals("3"))
-		{
-			System.out.println("Part 3");
-			System.out.println("Please give time in hh:mm:ss, Eg:5:25:50");
-			userInput = input.next();
-			String[] userInput_split = userInput.split(":");
-			StringBuffer sb = new StringBuffer();
-		    for(int i = 0; i < userInput_split.length; i++)
-		    {
-		    	sb.append(userInput_split[i]);
-		    }
-		    System.out.println("Here is the list of stops");
-		    System.out.println("trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type,shape_dist_traveled");
-		    System.out.println(SearchingGivenTime.providetimes("stop_times.txt", sb.toString()));
+			if (inputFromUser==1)
+			{
+				FindingShortestPath idk = new FindingShortestPath();
+				System.out.println("Part 1");
+				System.out.println("Please give ID of stop you are starting from. EG 1888");
+				String stop1 = input.next();
+				System.out.println("Please give ID of stop you are going to. EG 1888");
+				String stop2 = input.next();
+				idk.FindingShortestPathMethod("stops.txt", "stop_times.txt", "transfers.txt", stop1, stop2);
+			}
+			
+			if (inputFromUser==2)
+			{
+				System.out.println("Part 2");
+				System.out.println("Please give part of name of stop. EG DUN/Water");
+				String userInput = input.next();
+			    System.out.println("Here is the list of stops");
+			    System.out.println("stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station");
+				TSTForStops tst = new TSTForStops();
+				tst = SearchingForStop.createTST("stops.txt" , userInput);
+			}
+			
+			if (inputFromUser==3)
+			{
+				System.out.println("Part 3");
+				System.out.println("Please give time in hh:mm:ss, Eg:5:25:50");
+				String userInput = input.next();
+				String[] userInput_split = userInput.split(":");
+				StringBuffer sb = new StringBuffer();
+			    for(int i = 0; i < userInput_split.length; i++)
+			    {
+			    	sb.append(userInput_split[i]);
+			    }
+			    System.out.println("Here is the list of stops");
+			    System.out.println("trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type,shape_dist_traveled");
+			    System.out.println(SearchingGivenTime.providetimes("stop_times.txt", sb.toString()));
+			}
 		}
 		input.close();
+		System.out.println("Application Closing");
 	}
 
 }
