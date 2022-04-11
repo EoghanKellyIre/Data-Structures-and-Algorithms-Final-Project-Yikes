@@ -9,7 +9,7 @@ public class MakingTheNetwork
     private Map<Integer, Integer> indexesForStopIDsToVerticesInNetwork;
     private Map<Integer, String> indexForVerticesToStopNames;
     private int Vertices;
-    private DijkstrasShortestPathAdjacencyListWithDHeap network;
+    private FindingTheShortestPathDijkstra network;
     
     //Constructor
 	public MakingTheNetwork(String fileForStopInfo, String fileForStopTimes, String fileListingTransfers) throws IOException
@@ -49,7 +49,7 @@ public class MakingTheNetwork
 		}
 		
 		Vertices=vertex;
-		DijkstrasShortestPathAdjacencyListWithDHeap network = new DijkstrasShortestPathAdjacencyListWithDHeap(Vertices);
+		FindingTheShortestPathDijkstra network = new FindingTheShortestPathDijkstra(Vertices);
 		this.setNetwork(network);
 
 		// TRANSFERS
@@ -129,12 +129,12 @@ public class MakingTheNetwork
 		input.close();
     }
 
-	public DijkstrasShortestPathAdjacencyListWithDHeap getNetwork()
+	public FindingTheShortestPathDijkstra getNetwork()
 	{
 		return network;
 	}
 
-	public void setNetwork(DijkstrasShortestPathAdjacencyListWithDHeap network)
+	public void setNetwork(FindingTheShortestPathDijkstra network)
 	{
 		this.network = network;
 	}

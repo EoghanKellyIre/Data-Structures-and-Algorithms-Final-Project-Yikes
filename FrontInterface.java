@@ -12,7 +12,13 @@ public class FrontInterface {
 		
 		if (userInput.equals("1"))
 		{
-		    
+			FindingShortestPath idk = new FindingShortestPath();
+			System.out.println("Part 1");
+			System.out.println("Please give ID of stop you are starting from. EG 1888");
+			String stop1 = input.next();
+			System.out.println("Please give ID of stop you are going to. EG 1888");
+			String stop2 = input.next();
+			idk.FindingShortestPathMethod("stops.txt", "stop_times.txt", "transfers.txt", stop1, stop2);
 		}
 		
 		if (userInput.equals("2"))
