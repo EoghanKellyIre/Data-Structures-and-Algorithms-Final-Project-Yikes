@@ -45,8 +45,6 @@ public class SearchingForStop
 	    	int output = TST.get(input);
 	        if(output >= 0)
 	        {
-	        	System.out.print("Here is list of stops that were found");
-	        	System.out.println("stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station");
 	            ArrayList<String> results = new ArrayList<>();
 	            for (int i = 0; i < TSTForStops.matches.size(); i++)
 	            {
