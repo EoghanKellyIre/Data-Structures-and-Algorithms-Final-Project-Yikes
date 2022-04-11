@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -9,8 +8,7 @@ public class CheckIfContainsStop
 {
 	//Instance Variables
     private static Map<Integer, Integer> indexesForStopIDs;
-    
-	@SuppressWarnings({ "null" })
+
 	public static Boolean findingStopId(String filename, Integer stopID)
 	{
 		indexesForStopIDs = new HashMap<Integer, Integer>();
@@ -25,6 +23,7 @@ public class CheckIfContainsStop
 			in.nextLine();
 			in.useDelimiter(",|" + "/n");
 			String trip_info = null;
+			System.out.println("Checking if stop id is valid");
 			while(in.hasNext())
 			{
 				trip_info = in.nextLine();
@@ -45,17 +44,9 @@ public class CheckIfContainsStop
 				{
 					System.out.println("8000 checked");
 				}
-				if(index==10000)
-				{
-					System.out.println("10000 checked");
-				}
-				if(index==20000)
-				{
-					System.out.println("20000 checked");
-				}
 			}
 			in.close();
-			return indexesForStopIDs.containsKey(stopID);
+			return indexesForStopIDs.containsValue(stopID);
 		}
 		catch (FileNotFoundException | NullPointerException e)
 		{
