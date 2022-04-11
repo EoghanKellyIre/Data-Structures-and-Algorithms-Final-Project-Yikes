@@ -43,13 +43,20 @@ public class FrontInterface {
 				System.out.println("Part 1");
 				finished=false;
 				correctlyDone=false;
+				String stop1 = null;
+				String stop2 = null;
 				while (!(finished||(correctlyDone)))
 				{
 					System.out.println("Please give ID of stop you are starting from. EG 1888");
-					String stop1 = input.next();
-					if (Integer.parseInt(stop1.replace(" ", ""))>0 && Integer.parseInt(stop1.replace(" ", ""))<15000)
+					System.out.println("or enter 'quit'");
+					stop1 = input.next();
+					if(stop1.equals("exit")||stop1.equals("quit"))
 					{
-						if(stops is contained)
+						finished=true;
+					}
+					else if (Integer.parseInt(stop1.replace(" ", ""))>0 && Integer.parseInt(stop1.replace(" ", ""))<15000 && !finished)
+					{
+						if(CheckIfContainsStop.findingStopId("stops.txt", Integer.parseInt(stop1))) //stops is contained
 						{
 							correctlyDone=true;
 						}
@@ -62,13 +69,14 @@ public class FrontInterface {
 					{
 						System.out.println("Not valid input");
 					}
-					if()
+					if(correctlyDone==true && !finished)
 					{
+						correctlyDone=false;
 						System.out.println("Please give ID of stop you are going to. EG 1888");
-						String stop2 = input.next();
+						stop2 = input.next();
 						if (Integer.parseInt(stop2.replace(" ", ""))>0 && Integer.parseInt(stop2.replace(" ", ""))<15000)
 						{
-							if(stops is contained)
+							if(CheckIfContainsStop.findingStopId("stops.txt", Integer.parseInt(stop1)))
 							{
 								correctlyDone=true;
 							}
@@ -82,11 +90,12 @@ public class FrontInterface {
 							System.out.println("Not valid input");
 						}
 					}
-					if()
+					if(correctlyDone==true && !finished)
 					{
 						idk.FindingShortestPathMethod("stops.txt", "stop_times.txt", "transfers.txt", stop1, stop2);
 					}
 				}
+				System.out.println("Application Closing");
 			}
 			
 			if (inputFromUser==2)
