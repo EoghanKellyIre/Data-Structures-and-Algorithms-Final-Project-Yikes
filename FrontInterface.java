@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class FrontInterface {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws IOException {
 		boolean finished = false;
 		Scanner input = new Scanner( System.in );
@@ -104,16 +105,17 @@ public class FrontInterface {
 						idk.FindingShortestPathMethod("stops.txt", "stop_times.txt", "transfers.txt", stop1, stop2);
 					}
 				}
-				System.out.println("Application Closing");
 			}
 			
 			if (inputFromUser==2)
 			{
 				System.out.println("Part 2");
 				System.out.println("Please give part of name of stop. EG DUN/Water");
-				String userInput = input.next();
+				input.nextLine();
+				String userInput = input.nextLine();
 			    System.out.println("Here is the list of stops");
 			    System.out.println("stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station");
+				@SuppressWarnings("unused")
 				TSTForStops tst = new TSTForStops();
 				tst = SearchingForStop.createTST("stops.txt" , userInput);
 			}
@@ -121,6 +123,7 @@ public class FrontInterface {
 			if (inputFromUser==3)
 			{
 				System.out.println("Part 3");
+				try {
 				System.out.println("Please give time in hh:mm:ss, Eg:5:25:50");
 				String userInput = input.next();
 				String[] userInput_split = userInput.split(":");
@@ -129,12 +132,22 @@ public class FrontInterface {
 			    {
 			    	sb.append(userInput_split[i]);
 			    }
+			    if (Integer.parseInt(userInput_split[0])>23 | Integer.parseInt(userInput_split[1])>59 | Integer.parseInt(userInput_split[2])>59)
+			    {
+			    	throw new ArithmeticException("Invalid Time");
+			    }
 			    System.out.println("Here is the list of stops");
 			    System.out.println("trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type,shape_dist_traveled");
 			    System.out.println(SearchingGivenTime.providetimes("stop_times.txt", sb.toString()));
+				}
+				catch(Exception e)
+				{
+					System.out.println("Invalid input, please try another time.");
+				}
 			}
 		}
 		input.close();
+		System.out.println("");
 		System.out.println("Application Closing");
 	}
 

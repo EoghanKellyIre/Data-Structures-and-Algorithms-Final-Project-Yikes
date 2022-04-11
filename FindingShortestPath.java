@@ -12,13 +12,24 @@ public class FindingShortestPath
 			int vertexto =network.GetVertice(Integer.parseInt(toID));
 			double cost = network.getNetwork().dijkstra(vertexfrom,vertexto);
 			System.out.println("The cost is " + cost);
-			System.out.println("The stops along the way are;");
-			List<Integer> path=network.getNetwork().reconstructPath(vertexfrom, vertexto);
-			String[] pathString = path.toString().replace("[", "").replace("]", "").replace(" ", "").split(",");
-			for(int i =0; i<pathString.length;i++)
+			if(cost>-1)
 			{
-				System.out.println(network.GetName(Integer.parseInt(pathString[i])));
+				if(cost<9999999)
+				{
+					System.out.println("The stops along the way are;");
+					List<Integer> path=network.getNetwork().reconstructPath(vertexfrom, vertexto);
+					String[] pathString = path.toString().replace("[", "").replace("]", "").replace(" ", "").split(",");
+					for(int i =0; i<pathString.length;i++)
+					{
+						System.out.println(network.GetName(Integer.parseInt(pathString[i])));
+					}
+				}
+				else
+				{
+					System.out.println("No path found");
+				}
 			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
