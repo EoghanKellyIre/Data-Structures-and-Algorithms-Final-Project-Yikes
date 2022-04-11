@@ -6,20 +6,14 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.stream.Stream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 
 public class SearchingForStop
 {
-    @SuppressWarnings({ "rawtypes" })
-	static
-	TST createTST(String filename , String input)
+	static TSTForStops createTST(String filename , String input) throws IOException
     {
     	
-		TST TST = new TST();
-		int lineNo =0;
+    	TSTForStops TST = new TSTForStops();
+		int lineNo =2;
 		try
 		{
 			File file = new File(filename);
@@ -48,19 +42,41 @@ public class SearchingForStop
 				lineNo++;
 			}
 			in.close();
-	    	LinkedList<String> String = TST.keysWithPrefix(input);
-	    	System.out.println(String);
+	    	int output = TST.get(input);
+	        if(output >= 0)
+	        {
+	        	System.out.print("Here is list of stops that were found");
+	        	System.out.println("stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station");
+	            ArrayList<String> results = new ArrayList<>();
+	            for (int i = 0; i < TSTForStops.matches.size(); i++)
+	            {
+	                String outputFromLine;
+	                int lineNumber = TSTForStops.matches.get(i);
+	                try (Stream<String> lines = Files.lines(Paths.get(filename)))
+	                {
+	                	outputFromLine = lines.skip(lineNumber - 1).findFirst().get();
+	                    results.add(outputFromLine);
+	                }
+	            }
+	            results.forEach(System.out::println);
+	            TSTForStops.matches.clear();
+	        }
+	        else
+	        {
+	        	System.out.print("Not found");
+	        }
 		}
 		catch (FileNotFoundException | NullPointerException e)
 		{
-			filename = null;
+			System.out.println("Error");
 		}
 		return TST;
     }
     
 	public static void main(String[] args) throws IOException 
 	{
-		TST tst = new TST();
+		@SuppressWarnings("unused")
+		TSTForStops tst = new TSTForStops();
 		tst = createTST("stops.txt" , "DUN");
 	}
 }
